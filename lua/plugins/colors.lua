@@ -1,29 +1,55 @@
 if true then
   return {
-    --{ "lifepillar/vim-solarized8" },
-    --{ "LazyVim/LazyVim", opts = { colorscheme = "solarized8" } },
-  }
-end
-return {
-  { "xiyaowong/transparent.nvim", enabled = false },
-  {
-    "f-person/auto-dark-mode.nvim",
-    enabled = false,
-    config = function()
-      local auto_dark_mode = require("auto-dark-mode")
-
-      auto_dark_mode.setup({
-        update_interval = 1000, -- Check every second
+    { "maxmx03/solarized.nvim" },
+    {
+      "LazyVim/LazyVim",
+      opts = {
+        colorscheme = "solarized",
+      },
+    },
+    {
+      "f-person/auto-dark-mode.nvim",
+      opts = {
+        update_interval = 1000,
         set_dark_mode = function()
-          vim.o.background = "dark" -- Global option for setting the background
-          vim.cmd("colorscheme solarized8") -- Dark theme
+          vim.api.nvim_set_option_value("background", "dark", {})
+          vim.cmd("colorscheme solarized")
         end,
         set_light_mode = function()
-          vim.o.background = "light" -- Global option for setting the background
-          vim.cmd("colorscheme solarized8") -- Light theme
+          vim.api.nvim_set_option_value("background", "light", {})
+          vim.cmd("colorscheme solarized")
         end,
-      })
-      auto_dark_mode.init()
+      },
+    },
+  }
+end
+
+return {
+  {
+    "maxmx03/solarized.nvim",
+    lazy = false,
+    priority = 1000,
+    ---@type solarized.config
+    opts = {
+      transparent = {
+        enabled = false,
+        pmenu = true,
+        normal = true,
+        normalfloat = true,
+        neotree = true,
+        nvimtree = true,
+        whichkey = true,
+        telescope = true,
+        lazy = true,
+        mason = true,
+      },
+    },
+    config = function(_, opts)
+      vim.o.termguicolors = true
+      -- vim.o.background = "dark"
+      -- vim.o.cursorline = false
+      require("solarized").setup(opts)
+      vim.cmd.colorscheme("solarized")
     end,
   },
 }
